@@ -11,7 +11,6 @@ package com.whizzosoftware.wzwave.controller.netty;
 
 import com.whizzosoftware.wzwave.MockChannel;
 import com.whizzosoftware.wzwave.channel.event.SendDataTransactionCompletedEvent;
-import com.whizzosoftware.wzwave.channel.event.TransactionCompletedEvent;
 import com.whizzosoftware.wzwave.controller.ZWaveControllerListener;
 import com.whizzosoftware.wzwave.frame.NodeProtocolInfo;
 import com.whizzosoftware.wzwave.frame.OutboundDataFrame;
@@ -51,7 +50,7 @@ public class NettyZWaveControllerTest {
         MockChannel channel = new MockChannel();
         MockZWaveControllerListener l = new MockZWaveControllerListener();
         NettyZWaveController c = new NettyZWaveController("/dev/null", folder.newFolder());
-        c.setChannel(channel);
+        c.getInitializer().setChannel(channel);
         c.setListener(l);
         assertEquals(0, c.getNodes().size());
         assertEquals(0, channel.getWrittenMessageCount());
@@ -69,7 +68,7 @@ public class NettyZWaveControllerTest {
         MockChannel channel = new MockChannel();
         MockZWaveControllerListener l = new MockZWaveControllerListener();
         NettyZWaveController c = new NettyZWaveController("/dev/null", folder.newFolder());
-        c.setChannel(channel);
+        c.getInitializer().setChannel(channel);
         c.setListener(l);
         assertEquals(0, c.getNodes().size());
         assertEquals(0, channel.getWrittenMessageCount());
@@ -89,7 +88,7 @@ public class NettyZWaveControllerTest {
         ZWaveNode node = new BinaryPowerSwitch(new NodeInfo((byte)0x02, BasicDeviceClasses.ROUTING_SLAVE, BinarySwitch.ID, BinaryPowerSwitch.ID), true, null);
         store.saveNode(node);
         NettyZWaveController c = new NettyZWaveController("/dev/null", store);
-        c.setChannel(channel);
+        c.getInitializer().setChannel(channel);
         c.setListener(l);
         assertEquals(0, c.getNodes().size());
         assertEquals(0, channel.getWrittenMessageCount());
